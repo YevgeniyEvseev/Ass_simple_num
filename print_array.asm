@@ -10,7 +10,9 @@ section .text
 ;rsi point array
 print_array:
 
-
+push rdi
+push rsi
+push rbp
 mov rbp, rsp
 mov r12, rsi   ; array
 mov r13, rdi   ;counter
