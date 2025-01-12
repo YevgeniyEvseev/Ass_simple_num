@@ -1,4 +1,3 @@
-;
 extern printf
 section .data
     msg     db      "%lld "
@@ -10,8 +9,9 @@ section .text
 ;rsi point array
 print_array:
 
-push rdi
-push rsi
+push r12
+push r13
+push r14
 push rbp
 mov rbp, rsp
 mov r12, rsi   ; array
@@ -44,14 +44,12 @@ loop_print:
 
     jmp loop_print
 
-    
-
-
 exit:
     
 mov rsp, rbp
 pop rbp
-pop rsi
-pop rdi
+pop r14
+pop r13
+pop r12
 ;leave
 ret
