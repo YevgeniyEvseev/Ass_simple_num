@@ -1,3 +1,4 @@
+;chech git merge
 extern printf
 section .data
     msg     db      "%lld "
