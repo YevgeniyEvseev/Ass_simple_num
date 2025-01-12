@@ -1,0 +1,58 @@
+     1                                  extern printf
+     2                                  section .data
+     3 00000000 256C6C6420                  msg     db      "%lld "
+     4 00000005 0300000000000000            length_str  dq  3
+     5 0000000D 0A                          NL      db  10
+     6                                  section .text
+     7                                      global print_array
+     8                                  ;rdi counter array
+     9                                  ;rsi point array
+    10                                  print_array:
+    11                                  
+    12 00000000 57                      push rdi
+    13 00000001 56                      push rsi
+    14 00000002 55                      push rbp
+    15 00000003 4889E5                  mov rbp, rsp
+    16 00000006 4989F4                  mov r12, rsi   ; array
+    17 00000009 4989FD                  mov r13, rdi   ;counter
+    18 0000000C 4C8B3425[05000000]      mov r14, [length_str]
+    19 00000014 EB1C                    jmp loop_print
+    20                                  
+    21                                  print_new_str:
+    22 00000016 4C8B3425[05000000]          mov r14, [length_str]
+    23 0000001E 48BF-                       mov rdi, NL
+    23 00000020 [0D00000000000000] 
+    24 00000028 B800000000                  mov rax, 0
+    25 0000002D E8(00000000)                call printf
+    26                                  
+    27                                  loop_print:
+    28 00000032 4983FD00                    cmp r13, 0
+    29 00000036 7428                        je exit
+    30 00000038 4983FE00                    cmp r14, 0
+    31 0000003C 74D8                        je print_new_str   
+    32                                      ;print num
+    33 0000003E 48BF-                       mov rdi, msg
+    33 00000040 [0000000000000000] 
+    34 00000048 498B3424                    mov rsi, [r12]
+    35 0000004C 4831C0                      xor rax, rax
+    36 0000004F E8(00000000)                call printf
+    37                                  
+    38 00000054 49FFCD                      dec r13
+    39 00000057 4983C408                    add r12, 0x8
+    40                                  
+    41 0000005B 49FFCE                      dec r14
+    42                                  
+    43                                  
+    44 0000005E EBD2                        jmp loop_print
+    45                                  
+    46                                      
+    47                                  
+    48                                  
+    49                                  exit:
+    50                                      
+    51 00000060 4889EC                  mov rsp, rbp
+    52 00000063 5D                      pop rbp
+    53 00000064 5E                      pop rsi
+    54 00000065 5F                      pop rdi
+    55                                  ;leave
+    56 00000066 C3                      ret
